@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+
+.readheading{
+    @apply text-center mt-3 text-2xl font-bold
+}
+
+
+.readallhead{
+    @apply text-xl 
+    md:text-2xl 
+}
+
+
+.readallheaddiv{
+    @apply p-2
+
+    md:flex  md:justify-center 
+} 
+
+.borederforreadhead{
+    @apply border-2 border-black rounded-sm mt-6 pl-2 pb-2 pt-2 break-words whitespace-normal
+
+
+    md:mx-6 md:text-2xl md:p-6 md:mt-32  md:bg-[rgb(240,228,211)] md:shadow-2xl 
+}
+
+@media (min-width: 768px) {
+    .shadow-colored{
+     box-shadow: 0 4px 20px rgb(217,162,153,1) 
+}
+
+}
+
+.readallsubhead{
+    @apply mt-2
+}
+
+.btncontainer{
+    @apply min-h-50  bg-[rgb(253,255,190,1)] min-w-80  rounded-sm
+}
+
+.btnstyle1{
+    @apply px-2 bg-green-400 py-1  rounded-sm
+    md:hover:scale-120 md:transition-transform duration-300;
+}
+
+.allbtnstyle{
+    @apply md:hover:scale-125 md:transition-transform duration-300
+}
+
+
+.btnstyle2{
+    @apply bg-red-500
+}
