@@ -3,6 +3,8 @@ import { ref, set } from 'firebase/database'
 import { auth } from './firebase'
 import { db } from './firebase'
 import { useNavigate } from 'react-router-dom'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useEffect } from 'react'
 
 const Education = () => {
   const initialdata = {
@@ -19,14 +21,11 @@ const Education = () => {
     setEducationData((prev) => ({ ...prev, [name]: value }))
   }
 
+  
   const handlesubmit = async (e) => {
     e.preventDefault()
     try {
       const user = auth.currentUser
-      if (!user) {
-        alert("User not logged in!")
-        return
-      }
       const uid = user.uid
       await set(ref(db, `users/${uid}/education`), {
         ...educationdata
@@ -36,6 +35,16 @@ const Education = () => {
       console.log(err)
     }
   }
+ useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth,user=> {
+      if(!user){
+        navigate("/")
+      }
+    })
+    
+    return ()=> unsubscribe ()
+  },[])
+ 
 
   return (
     <div>

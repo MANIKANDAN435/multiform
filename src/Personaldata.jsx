@@ -15,16 +15,18 @@ const Personaldata = () => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         setUid(user.uid);
-        const snap = await get(ref(db, `users/${user.uid}/personaldata`));
+        const snap = await get(ref(db, `users/${user.uid}/personaldata`));  
         if (snap.exists()) {
           setPersonalDetails(snap.val());
         } else {
-          setPersonalDetails((prev) => ({ ...prev, email: user.email }));
+          setPersonalDetails((prev) => ({ ...prev, email: user.email ,fullname : user.displayName}));
         }
+      }else{
+        navigate("/")
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, []);   
 
   const handlepersonaldata = (e) => {
     const { name, value } = e.target;
@@ -33,7 +35,7 @@ const Personaldata = () => {
 
   const handlesubmit = async (e) => {
     e.preventDefault();
-    if (!uid) return alert('User not logged in');
+
 
     try {
       await set(ref(db, `users/${uid}/personaldata`), { ...personaldetails });

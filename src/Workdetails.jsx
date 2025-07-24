@@ -3,6 +3,8 @@ import { ref, set } from 'firebase/database'
 import { auth } from './firebase'
 import { db } from './firebase'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
 
 const Workdetails = () => {
   const initialdata = {
@@ -23,10 +25,6 @@ const Workdetails = () => {
     e.preventDefault()
     try {
       const user = auth.currentUser;
-      if (!user) {
-        alert("User not logged in!");
-        return;
-      }
       const uid = user.uid;
       await set(ref(db, `users/${uid}/workdetails`), {
         ...workdata
@@ -36,6 +34,15 @@ const Workdetails = () => {
       console.log(err);
     }
   }
+   useEffect(()=>{
+    const unsubscribe = onAuthStateChanged(auth,user=> {
+      if(!user){
+        navigate("/")
+      }
+    })
+    
+    return ()=> unsubscribe ()
+  },[])
 
   return (
     <div>
